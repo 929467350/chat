@@ -7,7 +7,7 @@
 通讯:socket.io<br />
 ### 前台
 cnpm install <br />
-cd live-chat & npm start <br />
+npm start <br />
 open http://localhost:3000
 
 ### 后台
