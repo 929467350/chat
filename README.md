@@ -13,4 +13,3 @@ open http://localhost:3000
 ### 后台
 
 cd server & node app.js<br />
-open http://localhost:3001<br />
