@@ -1,10 +1,10 @@
 import React from 'react';
 import { message, Button } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
-const io = require( 'socket.io-client' );
-message.config( { duration: 1, } );
 let socket = void 0;
 const emoji = [];
+message.config( { duration: 1, } );
+const io = require( 'socket.io-client' );
 for ( let index = 1; index <= 75; index++ ) {
     emoji.push( index );
 }
@@ -47,21 +47,22 @@ class Home extends React.Component {
         return false;
     }
     connect () {
-        socket = io( '101.201.113.252:3001' );
+        socket = io( '127.0.0.1:3001' );
         socket.on( 'connect', () => {
             const { nickname } = this.state;
             // 发送用户登录
             this.emit( 'login', { nickname } );
             // 监听当前客户端进入
-            socket.on( 'logined', () => {
+            socket.on( 'logined', (data) => {
                 message.success( `欢迎您加入聊天室` )
+                this.setState( { total: data.total } )
             } );
 
             // 监听新的聊天|新的用户登录|用户退出
             ['new message', 'new user', 'disconnect'].forEach( item => {
                 socket.on( item, data => {
                     if ( data.hasOwnProperty( 'nickname' ) ) {
-                        if ( item === 'new user' ) {
+                        if ( item === 'new user' || item === 'disconnect' ) {
                             this.setState( { total: data.total } )
                         }
                         this.setState( { data: [...this.state.data, data], } );
