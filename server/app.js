@@ -17,8 +17,8 @@ io.on( "connection", socket => {
     // 监听用户登录
     socket.on( 'login', data => {
         login.push( { id: socket.id, ...data } );
-        socket.emit( 'logined', { 'msg': '登录成功' } );
-        io.emit( 'new user', { ...data, logined: true, total: login.length } );
+        socket.emit( 'logined', { 'msg': '登录成功', total: login.length } );
+        socket.broadcast.emit( 'new user', { ...data, logined: true, total: login.length } );
     } );
 
     // 监听新的聊天
