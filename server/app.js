@@ -6,7 +6,13 @@ const io = require( "socket.io" )( http, {
 
 } );
 const login = [];
-
+const origins = ['http://localhost:3000'];
+io.origins( ( origin, callback ) => {
+    if ( origins.indexOf( origin ) < 0 ) {
+        return callback( 'origin not allowed', false );
+    }
+    callback( null, true );
+} );
 io.on( "connection", socket => {
     const getIndex = () => {
         return login.findIndex( item => {
